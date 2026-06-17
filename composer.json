@@ -1,5 +1,5 @@
 {
-    "name": "sanjeev/response-crypt",
+    "name": "response/crypt",
     "description": "Laravel package for automatic API request/response encryption and decryption",
     "type": "library",
     "license": "MIT",
