@@ -1,5 +1,6 @@
 {
-    "name": "kartikgroupofindia/crypt",
+    "name": "sanjeev-dev/crypt",
+    "version": "1.0.0",
     "description": "Laravel package for automatic API request/response encryption and decryption",
     "type": "library",
     "license": "MIT",
@@ -15,8 +16,8 @@
     ],
     "authors": [
         {
-            "name": "Sanjeev",
-            "email": "sanjeev@example.com"
+            "name": "Sanjeev Kumar",
+            "email": "sanjeevturkauli.dev@gmail.com"
         }
     ],
     "require": {
