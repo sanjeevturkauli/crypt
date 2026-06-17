@@ -1,0 +1,9 @@
+/vendor/
+composer.lock
+.phpunit.result.cache
+.phpunit.cache
+.idea/
+.vscode/
+*.DS_Store
+/build/
+/.php-cs-fixer.cache

@@ -1,0 +1,61 @@
+{
+    "name": "sanjeev/response-crypt",
+    "description": "Laravel package for automatic API request/response encryption and decryption",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "encryption",
+        "api",
+        "security",
+        "response",
+        "request",
+        "decrypt",
+        "encrypt"
+    ],
+    "authors": [
+        {
+            "name": "Sanjeev",
+            "email": "sanjeev@example.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/encryption": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/http": "^10.0|^11.0|^12.0|^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^10.0|^11.0",
+        "mockery/mockery": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sanjeev\\ResponseCrypt\\": "src/"
+        },
+        "files": [
+            "src/Helpers/ResponseCryptHelper.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sanjeev\\ResponseCrypt\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sanjeev\\ResponseCrypt\\ResponseCryptServiceProvider"
+            ],
+            "aliases": {
+                "ResponseCrypt": "Sanjeev\\ResponseCrypt\\Facades\\ResponseCrypt"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
+}
