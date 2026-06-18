@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static bool shouldSkipRequest(\Illuminate\Http\Request $request)
  * @method static bool shouldEncryptResponse($response)
  *
- * @see \Sanjeev\ResponseCrypt\Services\ResponseCryptService
+ * @see \Sanjeev\ResponseCrypt\Services\EncryptionService
  */
 class ResponseCrypt extends Facade
 {
@@ -24,6 +24,6 @@ class ResponseCrypt extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return 'response-crypt';
+        return 'crypt.service';
     }
 }
