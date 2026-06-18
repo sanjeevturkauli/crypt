@@ -1,7 +1,7 @@
 {
     "name": "sanjeev-dev/crypt",
-    "version": "1.0.0",
-    "description": "Laravel package for automatic API request/response encryption and decryption",
+    "version": "1.1.0",
+    "description": "Professional Laravel package for API encryption with Strategy Pattern, SOLID principles, and modern PHP 8.2+ features",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -12,7 +12,14 @@
         "response",
         "request",
         "decrypt",
-        "encrypt"
+        "encrypt",
+        "strategy-pattern",
+        "solid-principles",
+        "php8",
+        "modern-php",
+        "design-patterns",
+        "hex-encoding",
+        "mobile"
     ],
     "authors": [
         {
