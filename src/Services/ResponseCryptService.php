@@ -27,11 +27,15 @@ class ResponseCryptService
         try {
             $payload = is_string($data) ? $data : json_encode($data);
 
-            if ($this->config['driver'] === 'openssl') {
-                return $this->encryptWithOpenSSL($payload);
-            }
+            $driver = $this->config['driver'] ?? 'hex';
 
-            return Crypt::encryptString($payload);
+            return match($driver) {
+                'openssl' => $this->encryptWithOpenSSL($payload),
+                'openssl_fixed' => $this->encryptWithOpenSSLFixed($payload),
+                'hex' => $this->encryptWithHex($payload),
+                'laravel' => Crypt::encryptString($payload),
+                default => $this->encryptWithHex($payload),
+            };
         } catch (\Exception $e) {
             $this->logError('Encryption failed', $e);
             throw new EncryptionFailedException('Failed to encrypt data: ' . $e->getMessage());
@@ -44,11 +48,15 @@ class ResponseCryptService
     public function decrypt(string $payload): mixed
     {
         try {
-            if ($this->config['driver'] === 'openssl') {
-                $decrypted = $this->decryptWithOpenSSL($payload);
-            } else {
-                $decrypted = Crypt::decryptString($payload);
-            }
+            $driver = $this->config['driver'] ?? 'hex';
+
+            $decrypted = match($driver) {
+                'openssl' => $this->decryptWithOpenSSL($payload),
+                'openssl_fixed' => $this->decryptWithOpenSSLFixed($payload),
+                'hex' => $this->decryptWithHex($payload),
+                'laravel' => Crypt::decryptString($payload),
+                default => $this->decryptWithHex($payload),
+            };
 
             $decoded = json_decode($decrypted, true);
             return $decoded !== null ? $decoded : $decrypted;
@@ -163,7 +171,7 @@ class ResponseCryptService
     }
 
     /**
-     * Decrypt using OpenSSL AES-256-CBC.
+     * Decrypt using OpenSSL AES-256-CBC with random IV.
      */
     protected function decryptWithOpenSSL(string $data): string
     {
@@ -189,21 +197,140 @@ class ResponseCryptService
     }
 
     /**
+     * Encrypt using OpenSSL AES-256-CBC with fixed IV.
+     */
+    protected function encryptWithOpenSSLFixed(string $data): string
+    {
+        $key = $this->getEncryptionKey();
+        $iv = $this->getEncryptionIV();
+        $cipher = $this->config['cipher'] ?? 'AES-256-CBC';
+
+        $encrypted = openssl_encrypt($data, $cipher, $key, OPENSSL_RAW_DATA, $iv);
+
+        if ($encrypted === false) {
+            throw new EncryptionFailedException('OpenSSL encryption failed');
+        }
+
+        return base64_encode($encrypted);
+    }
+
+    /**
+     * Decrypt using OpenSSL AES-256-CBC with fixed IV.
+     */
+    protected function decryptWithOpenSSLFixed(string $data): string
+    {
+        $key = $this->getEncryptionKey();
+        $iv = $this->getEncryptionIV();
+        $cipher = $this->config['cipher'] ?? 'AES-256-CBC';
+        $decoded = base64_decode($data, true);
+
+        if ($decoded === false) {
+            throw new DecryptionFailedException('Invalid base64 encoded data');
+        }
+
+        $decrypted = openssl_decrypt($decoded, $cipher, $key, OPENSSL_RAW_DATA, $iv);
+
+        if ($decrypted === false) {
+            throw new DecryptionFailedException('OpenSSL decryption failed');
+        }
+
+        return $decrypted;
+    }
+
+    /**
+     * Encrypt using OpenSSL with hex encoding (compatible with mobile apps).
+     */
+    protected function encryptWithHex(string $data): string
+    {
+        $key = $this->getEncryptionKey();
+        $iv = $this->getEncryptionIV();
+        $cipher = $this->config['cipher'] ?? 'AES-256-CBC';
+
+        $encrypted = openssl_encrypt($data, $cipher, $key, OPENSSL_RAW_DATA, $iv);
+
+        if ($encrypted === false) {
+            throw new EncryptionFailedException('Hex encryption failed');
+        }
+
+        // Convert binary to hex
+        return bin2hex($encrypted);
+    }
+
+    /**
+     * Decrypt using OpenSSL with hex encoding (compatible with mobile apps).
+     */
+    protected function decryptWithHex(string $data): string
+    {
+        $key = $this->getEncryptionKey();
+        $iv = $this->getEncryptionIV();
+        $cipher = $this->config['cipher'] ?? 'AES-256-CBC';
+
+        // Convert hex to binary
+        $encrypted = hex2bin($data);
+
+        if ($encrypted === false) {
+            throw new DecryptionFailedException('Invalid hex encoded data');
+        }
+
+        $decrypted = openssl_decrypt($encrypted, $cipher, $key, OPENSSL_RAW_DATA, $iv);
+
+        if ($decrypted === false) {
+            throw new DecryptionFailedException('Hex decryption failed');
+        }
+
+        return $decrypted;
+    }
+
+    /**
      * Get encryption key from config.
      */
     protected function getEncryptionKey(): string
     {
-        $key = $this->config['key'];
+        $key = $this->config['key'] ?? null;
 
         if (empty($key)) {
-            throw new \RuntimeException('Encryption key is not configured');
+            throw new \RuntimeException('Encryption key is not configured. Please set RESPONSE_CRYPT_KEY in your .env file.');
         }
 
+        // If key starts with 'base64:', decode it
         if (str_starts_with($key, 'base64:')) {
             return base64_decode(substr($key, 7));
         }
 
+        // Otherwise, assume it's already base64 encoded
+        $decoded = base64_decode($key, true);
+        if ($decoded !== false) {
+            return $decoded;
+        }
+
+        // If not base64, return as is (raw key)
         return $key;
+    }
+
+    /**
+     * Get encryption IV from config.
+     */
+    protected function getEncryptionIV(): string
+    {
+        $iv = $this->config['iv'] ?? null;
+
+        if (empty($iv)) {
+            throw new \RuntimeException('Encryption IV is not configured. Please set RESPONSE_CRYPT_IV in your .env file.');
+        }
+
+        // If IV starts with 'base64:', decode it
+        if (str_starts_with($iv, 'base64:')) {
+            return base64_decode(substr($iv, 7));
+        }
+
+        // Otherwise, assume it's already base64 encoded
+        $decoded = base64_decode($iv, true);
+        if ($decoded !== false) {
+            return $decoded;
+        }
+
+        // If not base64, return as is (raw IV)
+        return $iv;
     }
 
     /**

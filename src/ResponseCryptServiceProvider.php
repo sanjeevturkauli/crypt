@@ -37,12 +37,70 @@ class ResponseCryptServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
+            // Publish config
             $this->publishes([
                 __DIR__ . '/../config/response-crypt.php' => config_path('response-crypt.php'),
             ], 'response-crypt-config');
+
+            // Register commands
+            $this->commands([
+                \Sanjeev\ResponseCrypt\Console\GenerateKeysCommand::class,
+            ]);
+
+            // Auto-generate keys after package installation
+            $this->autoGenerateKeysOnInstall();
         }
 
         $this->registerMiddleware();
+    }
+
+    /**
+     * Auto-generate encryption keys when package is installed.
+     */
+    protected function autoGenerateKeysOnInstall(): void
+    {
+        // Check if keys don't exist in .env
+        $envPath = $this->app->environmentFilePath();
+        
+        if (file_exists($envPath)) {
+            $envContent = file_get_contents($envPath);
+            
+            // If keys don't exist, generate them
+            $hasKey = preg_match('/^RESPONSE_CRYPT_KEY=/m', $envContent);
+            $hasIV = preg_match('/^RESPONSE_CRYPT_IV=/m', $envContent);
+            
+            if (!$hasKey || !$hasIV) {
+                $this->generateAndAppendKeys($envPath, $envContent, $hasKey, $hasIV);
+            }
+        }
+    }
+
+    /**
+     * Generate and append encryption keys to .env file.
+     */
+    protected function generateAndAppendKeys(string $envPath, string $envContent, bool $hasKey, bool $hasIV): void
+    {
+        // Generate 32-byte key for AES-256
+        $key = base64_encode(random_bytes(32));
+        
+        // Generate 16-byte IV for AES-256-CBC
+        $iv = base64_encode(random_bytes(16));
+        
+        $newContent = $envContent;
+        
+        if (!$hasKey && !$hasIV) {
+            $newContent .= "\n# Response Crypt Package - Auto-generated Keys\n";
+        }
+        
+        if (!$hasKey) {
+            $newContent .= 'RESPONSE_CRYPT_KEY="' . $key . '"' . "\n";
+        }
+        
+        if (!$hasIV) {
+            $newContent .= 'RESPONSE_CRYPT_IV="' . $iv . '"' . "\n";
+        }
+        
+        file_put_contents($envPath, $newContent);
     }
 
     /**

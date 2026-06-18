@@ -18,12 +18,14 @@ return [
     | Encryption Driver
     |--------------------------------------------------------------------------
     |
-    | Supported drivers: "laravel", "openssl"
-    | - laravel: Uses Laravel's built-in Crypt facade (recommended)
-    | - openssl: Uses OpenSSL AES-256-CBC encryption
+    | Supported drivers: "laravel", "openssl", "openssl_fixed", "hex"
+    | - laravel: Uses Laravel's built-in Crypt facade (base64 encoded)
+    | - openssl: Uses OpenSSL AES-256-CBC with random IV (base64 encoded)
+    | - openssl_fixed: Uses OpenSSL AES-256-CBC with fixed IV (base64 encoded)
+    | - hex: Uses OpenSSL AES-256-CBC with fixed IV (hex encoded) - Compatible with your current setup
     |
     */
-    'driver' => env('RESPONSE_CRYPT_DRIVER', 'laravel'),
+    'driver' => env('RESPONSE_CRYPT_DRIVER', 'hex'),
 
     /*
     |--------------------------------------------------------------------------
@@ -31,11 +33,26 @@ return [
     |--------------------------------------------------------------------------
     |
     | The encryption key used for encrypting/decrypting data.
-    | By default, it uses the application's APP_KEY.
-    | You can override this with RESPONSE_CRYPT_KEY environment variable.
+    | This will be auto-generated when you publish the config.
+    | You can customize it in your .env file with RESPONSE_CRYPT_KEY.
     |
     */
-    'key' => env('RESPONSE_CRYPT_KEY', env('APP_KEY')),
+    'key' => env('RESPONSE_CRYPT_KEY'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Encryption IV (Initialization Vector)
+    |--------------------------------------------------------------------------
+    |
+    | The IV used for OpenSSL encryption when driver is 'openssl_fixed'.
+    | This will be auto-generated when you publish the config.
+    | You can customize it in your .env file with RESPONSE_CRYPT_IV.
+    |
+    | Note: Using fixed IV is less secure than random IV.
+    | Use 'openssl' driver for random IV (recommended for production).
+    |
+    */
+    'iv' => env('RESPONSE_CRYPT_IV'),
 
     /*
     |--------------------------------------------------------------------------
@@ -153,10 +170,24 @@ return [
     | Cipher
     |--------------------------------------------------------------------------
     |
-    | The cipher used for OpenSSL encryption. Only used when driver is "openssl".
+    | The cipher used for OpenSSL encryption.
+    | Only used when driver is "openssl", "openssl_fixed", or "hex".
     |
     */
     'cipher' => 'AES-256-CBC',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Encoding Format
+    |--------------------------------------------------------------------------
+    |
+    | The encoding format for encrypted data.
+    | Supported: "base64", "hex"
+    | - base64: Standard base64 encoding (default)
+    | - hex: Hexadecimal encoding (compatible with mobile apps)
+    |
+    */
+    'encoding' => env('RESPONSE_CRYPT_ENCODING', 'hex'),
 
     /*
     |--------------------------------------------------------------------------
