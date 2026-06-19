@@ -1,6 +1,6 @@
 # Installation Guide
 
-Complete installation guide for Laravel Response Crypt package.
+Complete installation guide for SecureCrypto Laravel Encryption package.
 
 ## Table of Contents
 
@@ -42,20 +42,20 @@ Expected output: `Laravel Framework 10.x.x` or higher
 Open your terminal in your Laravel project root directory and run:
 
 ```bash
-composer require sanjeev-dev/crypt
+composer require securecrypto/laravel-encryption
 ```
 
 **Expected Output:**
 ```
-Using version ^1.0 for sanjeev-dev/crypt
+Using version ^1.0 for securecrypto/laravel-encryption
 ./composer.json has been updated
-Running composer update sanjeev-dev/crypt
+Running composer update securecrypto/laravel-encryption
 Loading composer repositories with package information
 Updating dependencies
 Lock file operations: 1 install, 0 updates, 0 removals
-  - Installing sanjeev-dev/crypt (1.0.0)
+  - Installing securecrypto/laravel-encryption (1.0.0)
 Package operations: 1 install, 0 updates, 0 removals
-  - Installing sanjeev-dev/crypt (1.0.0): Extracting archive
+  - Installing securecrypto/laravel-encryption (1.0.0): Extracting archive
 Generating autoload files
 ```
 
@@ -64,7 +64,7 @@ Generating autoload files
 Check if the package is installed:
 
 ```bash
-composer show sanjeev-dev/crypt
+composer show securecrypto/laravel-encryption
 ```
 
 You should see package details including version, description, and dependencies.
@@ -81,7 +81,7 @@ This creates `config/crypt.php` in your Laravel application.
 
 **Expected Output:**
 ```
-Copied File [/vendor/sanjeev-dev/crypt/config/crypt.php] To [/config/crypt.php]
+Copied File [/vendor/securecrypto/laravel-encryption/config/crypt.php] To [/config/crypt.php]
 Publishing complete.
 ```
 
@@ -340,7 +340,7 @@ php artisan config:clear
 php artisan cache:clear
 ```
 
-### Issue 2: "Package sanjeev-dev/crypt not found"
+### Issue 2: "Package securecrypto/laravel-encryption not found"
 
 **Possible Causes:**
 - Package not on Packagist yet
@@ -352,10 +352,10 @@ php artisan cache:clear
 composer clear-cache
 
 # Try installing again
-composer require sanjeev-dev/crypt
+composer require securecrypto/laravel-encryption
 
 # Or specify version
-composer require sanjeev-dev/crypt:^1.4
+composer require securecrypto/laravel-encryption:^1.4
 ```
 
 ### Issue 3: "Your requirements could not be resolved"
@@ -416,7 +416,7 @@ php artisan config:show crypt
 "extra": {
     "laravel": {
         "providers": [
-            "Sanjeev\\ResponseCrypt\\ResponseCryptServiceProvider"
+            "SecureCrypto\\Encryption\\ResponseCryptServiceProvider"
         ]
     }
 }
@@ -465,7 +465,7 @@ git add .
 git commit -m "Before installing response-crypt"
 
 # 2. Install package
-composer require sanjeev-dev/crypt
+composer require securecrypto/laravel-encryption
 
 # 3. Publish config
 php artisan vendor:publish --tag=crypt-config
@@ -490,7 +490,7 @@ If you need to remove the package:
 rm config/crypt.php
 
 # 3. Remove from composer
-composer remove sanjeev-dev/crypt
+composer remove securecrypto/laravel-encryption
 
 # 4. Clear cache
 php artisan optimize:clear
@@ -512,7 +512,7 @@ If you encounter issues:
 
 1. Check this installation guide
 2. Review [README.md](README.md) for usage examples
-3. Check GitHub issues: https://github.com/sanjeevturkauli/crypt/issues
+3. Check GitHub issues: https://github.com/securecrypto/laravel-encryption/issues
 4. Create a new issue with:
    - Laravel version
    - PHP version
@@ -521,11 +521,14 @@ If you encounter issues:
 
 ## Version History
 
+- **v1.5.0** - Professional package naming and structure
+- **v1.4.0** - Customizable response structure and security hardening
+- **v1.3.0** - Enhanced key management commands
+- **v1.1.0** - Architecture refactoring with Strategy Pattern
 - **v1.0.0** - Initial release
-- **v1.1.0** - Bug fixes and improvements
 
 ---
 
-**Happy Coding! 🚀**
+**Professional encryption solution for Laravel**
 
 For detailed usage instructions, see [README.md](README.md)

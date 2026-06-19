@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt\Middleware;
+namespace SecureCrypto\Encryption\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;

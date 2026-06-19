@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt\Facades;
+namespace SecureCrypto\Encryption\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

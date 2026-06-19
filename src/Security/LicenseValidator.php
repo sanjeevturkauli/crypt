@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt\Security;
+namespace SecureCrypto\Encryption\Security;
 
 /**
  * License Validator - Ensures proper usage of the package.

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt;
+namespace SecureCrypto\Encryption;
 
 use Illuminate\Support\ServiceProvider;
-use Sanjeev\ResponseCrypt\Services\EncryptionService;
-use Sanjeev\ResponseCrypt\Middleware\{EncryptApiResponse, DecryptApiRequest, EncryptDecryptApi};
-use Sanjeev\ResponseCrypt\Security\{IntegrityChecker, CodeProtection, LicenseValidator};
+use SecureCrypto\Encryption\Services\EncryptionService;
+use SecureCrypto\Encryption\Middleware\{EncryptApiResponse, DecryptApiRequest, EncryptDecryptApi};
+use SecureCrypto\Encryption\Security\{IntegrityChecker, CodeProtection, LicenseValidator};
 
 class ResponseCryptServiceProvider extends ServiceProvider
 {
@@ -20,13 +20,13 @@ class ResponseCryptServiceProvider extends ServiceProvider
         CodeProtection::init();
         
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/crypt.php',
-            'crypt'
+            __DIR__ . '/../config/secure-crypto.php',
+            'secure-crypto'
         );
 
         $this->app->singleton('crypt.service', function ($app) {
             return new EncryptionService(
-                config('crypt')
+                config('secure-crypto')
             );
         });
 
@@ -48,12 +48,13 @@ class ResponseCryptServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/crypt.php' => config_path('crypt.php'),
-            ], 'crypt-config');
+                __DIR__ . '/../config/secure-crypto.php' => config_path('secure-crypto.php'),
+            ], 'secure-crypto-config');
 
             // Register commands
             $this->commands([
                 Console\Commands\GenerateEncryptionKeys::class,
+                Console\Commands\CleanupPackage::class,
             ]);
 
             $this->autoGenerateKeysOnInstall();
@@ -74,8 +75,8 @@ class ResponseCryptServiceProvider extends ServiceProvider
         }
 
         $envContent = file_get_contents($envPath);
-        $hasKey = $this->hasEnvironmentKey($envContent, 'RESPONSE_CRYPT_KEY');
-        $hasIV = $this->hasEnvironmentKey($envContent, 'RESPONSE_CRYPT_IV');
+        $hasKey = $this->hasEnvironmentKey($envContent, 'CRYPT_KEY');
+        $hasIV = $this->hasEnvironmentKey($envContent, 'CRYPT_IV');
         
         if (!$hasKey || !$hasIV) {
             $this->generateAndAppendKeys($envPath, $envContent, $hasKey, $hasIV);
@@ -107,15 +108,15 @@ class ResponseCryptServiceProvider extends ServiceProvider
         $newContent = $envContent;
         
         if (!$hasKey && !$hasIV) {
-            $newContent .= "\n# Response Crypt Package - Auto-generated Keys\n";
+            $newContent .= "\n# Encryption Keys\n";
         }
         
         if (!$hasKey) {
-            $newContent .= sprintf('RESPONSE_CRYPT_KEY="%s"%s', $keys['key'], PHP_EOL);
+            $newContent .= sprintf('CRYPT_KEY="%s"%s', $keys['key'], PHP_EOL);
         }
         
         if (!$hasIV) {
-            $newContent .= sprintf('RESPONSE_CRYPT_IV="%s"%s', $keys['iv'], PHP_EOL);
+            $newContent .= sprintf('CRYPT_IV="%s"%s', $keys['iv'], PHP_EOL);
         }
         
         file_put_contents($envPath, $newContent);

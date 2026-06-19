@@ -1,6 +1,6 @@
 {
-    "name": "sanjeev-dev/crypt",
-    "description": "Professional Laravel package for API encryption with Strategy Pattern, SOLID principles, and modern PHP 8.2+ features",
+    "name": "securecrypto/laravel-encryption",
+    "description": "Professional Laravel package for secure encryption with Strategy Pattern, SOLID principles, and modern PHP 8.2+ features",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -23,7 +23,9 @@
     "authors": [
         {
             "name": "Sanjeev Kumar",
-            "email": "sanjeevturkauli.dev@gmail.com"
+            "email": "radhe1310143@gmail.com",
+            "homepage": "https://kartikgroupofindia.com/",
+            "role": "Developer"
         }
     ],
     "require": {
@@ -39,7 +41,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Sanjeev\\ResponseCrypt\\": "src/"
+            "SecureCrypto\\Encryption\\": "src/"
         },
         "files": [
             "src/Helpers/ResponseCryptHelper.php"
@@ -47,22 +49,25 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Sanjeev\\ResponseCrypt\\Tests\\": "tests/"
+            "SecureCrypto\\Encryption\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Sanjeev\\ResponseCrypt\\ResponseCryptServiceProvider"
+                "SecureCrypto\\Encryption\\ResponseCryptServiceProvider"
             ],
             "aliases": {
-                "ResponseCrypt": "Sanjeev\\ResponseCrypt\\Facades\\ResponseCrypt"
+                "ResponseCrypt": "SecureCrypto\\Encryption\\Facades\\ResponseCrypt"
             }
         }
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "post-package-uninstall": [
+            "@php artisan secure-crypto:cleanup --force"
+        ]
     }
 }

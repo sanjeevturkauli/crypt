@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt\Tests\Unit;
+namespace SecureCrypto\Encryption\Tests\Unit;
 
 use Orchestra\Testbench\TestCase;
-use Sanjeev\ResponseCrypt\Services\EncryptionService;
-use Sanjeev\ResponseCrypt\Exceptions\EncryptionFailedException;
-use Sanjeev\ResponseCrypt\Exceptions\DecryptionFailedException;
+use SecureCrypto\Encryption\Services\EncryptionService;
+use SecureCrypto\Encryption\Exceptions\EncryptionFailedException;
+use SecureCrypto\Encryption\Exceptions\DecryptionFailedException;
 use Illuminate\Http\Request;
 
 class ResponseCryptServiceTest extends TestCase

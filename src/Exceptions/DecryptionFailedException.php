@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt\Exceptions;
+namespace SecureCrypto\Encryption\Exceptions;
 
 use Exception;
 

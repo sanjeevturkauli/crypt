@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt\Contracts;
+namespace SecureCrypto\Encryption\Contracts;
 
 interface EncryptionDriverInterface
 {

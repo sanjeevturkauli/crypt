@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt\Drivers;
+namespace SecureCrypto\Encryption\Drivers;
 
-use Sanjeev\ResponseCrypt\Contracts\EncryptionDriverInterface;
-use Sanjeev\ResponseCrypt\Exceptions\{DecryptionFailedException, EncryptionFailedException};
+use SecureCrypto\Encryption\Contracts\EncryptionDriverInterface;
+use SecureCrypto\Encryption\Exceptions\{DecryptionFailedException, EncryptionFailedException};
 
 abstract class BaseEncryptionDriver implements EncryptionDriverInterface
 {
@@ -26,7 +26,7 @@ abstract class BaseEncryptionDriver implements EncryptionDriverInterface
 
         if (empty($key)) {
             throw new \RuntimeException(
-                'Encryption key not configured. Please set RESPONSE_CRYPT_KEY in your .env file.'
+                'Encryption key not configured. Please set CRYPT_KEY in your .env file.'
             );
         }
 
@@ -42,7 +42,7 @@ abstract class BaseEncryptionDriver implements EncryptionDriverInterface
 
         if (empty($iv)) {
             throw new \RuntimeException(
-                'Encryption IV not configured. Please set RESPONSE_CRYPT_IV in your .env file.'
+                'Encryption IV not configured. Please set CRYPT_IV in your .env file.'
             );
         }
 

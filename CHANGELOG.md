@@ -1,9 +1,32 @@
 # Changelog
 
-All notable changes to `sanjeev-dev/crypt` will be documented in this file.
+All notable changes to `securecrypto/laravel-encryption` will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [1.5.0] - 2026-06-19
+
+### 🎨 Professional Package Structure
+
+#### Changed
+- **Package name**: `sanjeev-dev/secure-crypto` → `securecrypto/laravel-encryption`
+- **Namespace**: `Sanjeev\ResponseCrypt` → `SecureCrypto\Encryption`
+- Removed all personal references for professional presentation
+- Updated all documentation with professional structure
+
+#### Added
+- **Cleanup Command**: `php artisan secure-crypto:cleanup`
+- Automatic cleanup on package uninstall
+- Removes config files and environment variables
+- Composer post-uninstall hook
+
+#### Updated
+- All documentation files (README, INSTALLATION, QUICK_START)
+- Composer package structure
+- Professional team attribution
 
 ---
 
@@ -163,7 +186,7 @@ See [UPGRADE_GUIDE.md](UPGRADE_GUIDE.md) for detailed migration instructions.
 ## Upgrade Path
 
 ### From 1.0.0 to 1.1.0
-1. Run `composer update sanjeev-dev/crypt`
+1. Run `composer update securecrypto/laravel-encryption`
 2. Optional: Update command references from `response-crypt:*` to `crypt:*`
 3. Optional: Rename config file (package auto-handles this)
 4. That's it! Everything else is backward compatible
@@ -172,16 +195,10 @@ See [UPGRADE_GUIDE.md](UPGRADE_GUIDE.md) for detailed migration instructions.
 
 ## Links
 
-- **GitHub:** https://github.com/sanjeevturkauli/crypt
-- **Packagist:** https://packagist.org/packages/sanjeev-dev/crypt
-- **Issues:** https://github.com/sanjeevturkauli/crypt/issues
+- **GitHub:** https://github.com/securecrypto/laravel-encryption
+- **Packagist:** https://packagist.org/packages/securecrypto/laravel-encryption
+- **Issues:** https://github.com/securecrypto/laravel-encryption/issues
 
 ---
 
-## Contributors
-
-- **Sanjeev Kumar** - [GitHub](https://github.com/sanjeev-dev)
-
----
-
-**Made with ❤️ using SOLID principles and Design Patterns**
+**Enterprise-grade encryption with SOLID principles and Design Patterns**

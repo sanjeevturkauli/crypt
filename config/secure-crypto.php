@@ -3,15 +3,14 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Enable/Disable Response Encryption
+    | Enable/Disable Encryption
     |--------------------------------------------------------------------------
     |
-    | This option controls whether the response encryption and request
-    | decryption features are enabled globally. You can toggle this
-    | via the RESPONSE_CRYPT_ENABLED environment variable.
+    | Master switch for encryption/decryption features.
+    | Works for both API and Web routes.
     |
     */
-    'enabled' => env('RESPONSE_CRYPT_ENABLED', true),
+    'enabled' => env('CRYPT_ENABLED', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -22,10 +21,10 @@ return [
     | - laravel: Uses Laravel's built-in Crypt facade (base64 encoded)
     | - openssl: Uses OpenSSL AES-256-CBC with random IV (base64 encoded)
     | - openssl_fixed: Uses OpenSSL AES-256-CBC with fixed IV (base64 encoded)
-    | - hex: Uses OpenSSL AES-256-CBC with fixed IV (hex encoded) - Compatible with your current setup
+    | - hex: Uses OpenSSL AES-256-CBC with fixed IV (hex encoded) - Best for mobile
     |
     */
-    'driver' => env('RESPONSE_CRYPT_DRIVER', 'hex'),
+    'driver' => env('CRYPT_DRIVER', 'hex'),
 
     /*
     |--------------------------------------------------------------------------
@@ -33,26 +32,21 @@ return [
     |--------------------------------------------------------------------------
     |
     | The encryption key used for encrypting/decrypting data.
-    | This will be auto-generated when you publish the config.
-    | You can customize it in your .env file with RESPONSE_CRYPT_KEY.
+    | Auto-generated on installation.
     |
     */
-    'key' => env('RESPONSE_CRYPT_KEY'),
+    'key' => env('CRYPT_KEY'),
 
     /*
     |--------------------------------------------------------------------------
     | Encryption IV (Initialization Vector)
     |--------------------------------------------------------------------------
     |
-    | The IV used for OpenSSL encryption when driver is 'openssl_fixed'.
-    | This will be auto-generated when you publish the config.
-    | You can customize it in your .env file with RESPONSE_CRYPT_IV.
-    |
-    | Note: Using fixed IV is less secure than random IV.
-    | Use 'openssl' driver for random IV (recommended for production).
+    | The IV used for OpenSSL encryption.
+    | Auto-generated on installation.
     |
     */
-    'iv' => env('RESPONSE_CRYPT_IV'),
+    'iv' => env('CRYPT_IV'),
 
     /*
     |--------------------------------------------------------------------------
@@ -182,47 +176,42 @@ return [
     |--------------------------------------------------------------------------
     |
     | The encoding format for encrypted data.
-    | Supported: "base64", "hex"
-    | - base64: Standard base64 encoding (default)
-    | - hex: Hexadecimal encoding (compatible with mobile apps)
+    | - base64: Standard base64 encoding (web-friendly)
+    | - hex: Hexadecimal encoding (mobile-friendly)
     |
     */
-    'encoding' => env('RESPONSE_CRYPT_ENCODING', 'hex'),
+    'encoding' => env('CRYPT_ENCODING', 'hex'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Response Mode
+    |--------------------------------------------------------------------------
+    |
+    | Controls how encrypted responses are returned:
+    | 
+    | - 'minimal'  : Only encrypted string (clean, professional)
+    |   "a2e19e18e6f504111ec9a8a82ce920e..."
+    |
+    | - 'wrapped'  : Full response with metadata
+    |   {"success": true, "data": "encrypted...", "meta": {...}}
+    |
+    | - 'custom'   : Use response_structure template below
+    |
+    */
+    'response_mode' => env('CRYPT_RESPONSE_MODE', 'minimal'),
 
     /*
     |--------------------------------------------------------------------------
     | Response Structure Template
     |--------------------------------------------------------------------------
     |
-    | Customize the encrypted response structure. You can use placeholders:
+    | Only used when response_mode is 'custom'
+    | Customize the encrypted response structure with placeholders:
     | - {payload}    : The encrypted data
     | - {encrypted}  : Boolean flag (true/false)
     | - {algorithm}  : Encryption algorithm used
     | - {cipher}     : Cipher method
     | - {timestamp}  : Current timestamp
-    |
-    | Examples:
-    | 
-    | Standard format (current):
-    | [
-    |     'encrypted' => true,
-    |     'payload' => '{payload}',
-    |     'meta' => ['algorithm' => '{algorithm}', 'cipher' => '{cipher}']
-    | ]
-    |
-    | Custom API format:
-    | [
-    |     'success' => true,
-    |     'status' => 200,
-    |     'message' => 'success',
-    |     'data' => '{payload}',
-    |     'encrypted' => true
-    | ]
-    |
-    | Minimal format:
-    | [
-    |     'data' => '{payload}'
-    | ]
     |
     */
     'response_structure' => [
@@ -236,15 +225,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Allow Plain Response via Accept Header
+    | Allow Plain Response Control
     |--------------------------------------------------------------------------
     |
-    | When true, clients can request plain (unencrypted) responses by using
-    | Accept: application/json header. Useful for debugging and development.
-    | Set to false in production for maximum security.
+    | When true, clients can request plain (unencrypted) responses via:
+    | - Header: X-Disable-Encryption: true
+    | - Query: ?encrypted=false
+    | - Accept: application/json (when enabled)
     |
     */
-    'allow_plain_via_accept' => env('RESPONSE_CRYPT_ALLOW_PLAIN', false),
+    'allow_plain_via_accept' => env('CRYPT_ALLOW_PLAIN', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -256,7 +246,7 @@ return [
     | Disable Integrity Check
     | Set to true only if you're developing/modifying the package
     */
-    'disable_integrity_check' => env('RESPONSE_CRYPT_DISABLE_INTEGRITY', false),
+    'disable_integrity_check' => env('CRYPT_DISABLE_INTEGRITY', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -267,5 +257,5 @@ return [
     | WARNING: Never log decrypted sensitive data in production.
     |
     */
-    'log_enabled' => env('RESPONSE_CRYPT_LOG_ENABLED', false),
+    'log_enabled' => env('CRYPT_LOG_ENABLED', false),
 ];

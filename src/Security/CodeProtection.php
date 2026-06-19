@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt\Security;
+namespace SecureCrypto\Encryption\Security;
 
 use RuntimeException;
 

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt\Services;
+namespace SecureCrypto\Encryption\Services;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
-use Sanjeev\ResponseCrypt\Exceptions\DecryptionFailedException;
-use Sanjeev\ResponseCrypt\Exceptions\EncryptionFailedException;
-use Sanjeev\ResponseCrypt\Contracts\EncryptionDriverInterface;
-use Sanjeev\ResponseCrypt\Drivers\{HexEncryptionDriver, LaravelEncryptionDriver, OpenSSLDriver};
+use SecureCrypto\Encryption\Exceptions\DecryptionFailedException;
+use SecureCrypto\Encryption\Exceptions\EncryptionFailedException;
+use SecureCrypto\Encryption\Contracts\EncryptionDriverInterface;
+use SecureCrypto\Encryption\Drivers\{HexEncryptionDriver, LaravelEncryptionDriver, OpenSSLDriver};
 
 class EncryptionService
 {

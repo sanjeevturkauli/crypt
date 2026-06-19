@@ -1,10 +1,10 @@
-# Laravel Response Crypt 🔐
+# SecureCrypto - Laravel Encryption Package 🔐
 
-[![Latest Version](https://img.shields.io/packagist/v/sanjeev-dev/crypt.svg?style=flat-square)](https://packagist.org/packages/sanjeev-dev/crypt)
-[![License](https://img.shields.io/packagist/l/sanjeev-dev/crypt.svg?style=flat-square)](LICENSE)
-[![PHP Version](https://img.shields.io/packagist/php-v/sanjeev-dev/crypt.svg?style=flat-square)](https://packagist.org/packages/sanjeev-dev/crypt)
+[![Latest Version](https://img.shields.io/packagist/v/securecrypto/laravel-encryption.svg?style=flat-square)](https://packagist.org/packages/securecrypto/laravel-encryption)
+[![License](https://img.shields.io/packagist/l/securecrypto/laravel-encryption.svg?style=flat-square)](LICENSE)
+[![PHP Version](https://img.shields.io/packagist/php-v/securecrypto/laravel-encryption.svg?style=flat-square)](https://packagist.org/packages/securecrypto/laravel-encryption)
 
-A **professional-grade** Laravel package for automatic API request/response encryption and decryption. Built with modern design patterns, SOLID principles, and PHP 8.2+ features.
+Enterprise-grade Laravel package for automatic API request/response encryption and decryption. Built with modern design patterns, SOLID principles, and PHP 8.2+ features.
 
 **Perfect for mobile apps with hex encoding, auto-generated keys, and enterprise-ready architecture!**
 
@@ -25,7 +25,7 @@ A **professional-grade** Laravel package for automatic API request/response encr
 
 **Step 1: Install**
 ```bash
-composer require sanjeev-dev/crypt
+composer require securecrypto/laravel-encryption
 ```
 ✅ Keys auto-generated in `.env`!
 
@@ -93,7 +93,7 @@ RESPONSE_CRYPT_ENABLED=true
 ### Step 1: Install via Composer
 
 ```bash
-composer require sanjeev-dev/crypt
+composer require securecrypto/laravel-encryption
 ```
 
 ✅ **Keys are automatically generated** and added to your `.env` file!
@@ -682,33 +682,34 @@ This package is open-source software licensed under the [MIT License](LICENSE).
 
 ---
 
-## 🙏 Credits
+## 📦 Package Information
 
-- **Author:** Sanjeev Kumar
-- **Email:** sanjeevturkauli.dev@gmail.com
-- **Package:** sanjeev-dev/crypt
-- **Framework:** Laravel
+- **Package:** securecrypto/laravel-encryption
+- **Framework:** Laravel 10.x, 11.x, 12.x, 13.x
+- **PHP Version:** 8.2+
+- **License:** MIT
 - **Design Patterns:** Strategy, Facade, Dependency Injection
-- **Community:** Thank you for your support!
+- **Architecture:** SOLID Principles, Clean Code
 
 ### Built With
-- ❤️ Love for clean code
 - 🏗️ SOLID principles
 - 🎯 Design patterns
 - 🚀 Modern PHP 8.2+
 - ⚡ Laravel best practices
+- 🔒 Security-first approach
 
 ---
 
-## 📞 Support
+## 📞 Support & Resources
 
-- **GitHub Repository:** https://github.com/sanjeevturkauli/crypt
-- **Issues:** https://github.com/sanjeevturkauli/crypt/issues
-- **Packagist:** https://packagist.org/packages/sanjeev-dev/crypt
+- **GitHub Repository:** https://github.com/securecrypto/laravel-encryption
+- **Issue Tracker:** https://github.com/securecrypto/laravel-encryption/issues
+- **Packagist:** https://packagist.org/packages/securecrypto/laravel-encryption
+- **Documentation:** See installation and usage guides above
 
 ---
 
-**Made with ❤️ for the Laravel community**
+**Professional encryption solution for Laravel applications**
 
 **Professional-grade encryption package with modern architecture! 🔒**
 
@@ -1065,18 +1066,19 @@ Please see [CHANGELOG](CHANGELOG.md) for recent changes.
 
 This package is open-sourced software licensed under the [MIT license](LICENSE).
 
-## Author
+## Contributing
 
-**Sanjeev Kumar**  
-Email: sanjeevturkauli.dev@gmail.com  
-GitHub: [@sanjeev-dev](https://github.com/sanjeev-dev)
+Contributions are welcome! This is a professional-grade package, so please ensure:
+- ✅ Follow PSR-12 coding standards
+- ✅ Add tests for new features
+- ✅ Use type hints everywhere
+- ✅ Follow SOLID principles
+- ✅ Update documentation
 
 ## Support
 
-If you find this package helpful, please ⭐ star the repository!
-
-For issues and feature requests, please use the [GitHub issue tracker](https://github.com/sanjeev-dev/crypt/issues).
+For issues and feature requests, please use the [GitHub issue tracker](https://github.com/securecrypto/laravel-encryption/issues).
 
 ---
 
-Made with ❤️ by [Sanjeev Kumar](https://github.com/sanjeev-dev)
+**Enterprise-grade encryption for Laravel applications**

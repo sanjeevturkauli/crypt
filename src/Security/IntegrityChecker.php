@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt\Security;
+namespace SecureCrypto\Encryption\Security;
 
 use RuntimeException;
 
@@ -30,7 +30,7 @@ class IntegrityChecker
             return;
         }
 
-        if (config('crypt.disable_integrity_check', false)) {
+        if (config('secure-crypto.disable_integrity_check', false)) {
             self::$checked = true;
             return;
         }

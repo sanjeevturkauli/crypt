@@ -1,11 +1,11 @@
 # 🚀 Quick Start Guide
 
-Get started with Laravel Response Crypt in 3 simple steps!
+Get started with SecureCrypto Laravel Encryption in 3 simple steps!
 
 ## Step 1: Install
 
 ```bash
-composer require sanjeev-dev/crypt
+composer require securecrypto/laravel-encryption
 ```
 
 ✅ Encryption keys are **automatically generated** and added to your `.env` file!
@@ -100,9 +100,9 @@ Route::middleware($middlewares)->group(function () {
 
 ## 📞 Support
 
-- **GitHub**: https://github.com/sanjeevturkauli/crypt
-- **Issues**: https://github.com/sanjeevturkauli/crypt/issues
-- **Packagist**: https://packagist.org/packages/sanjeev-dev/crypt
+- **GitHub**: https://github.com/securecrypto/laravel-encryption
+- **Issues**: https://github.com/securecrypto/laravel-encryption/issues
+- **Packagist**: https://packagist.org/packages/securecrypto/laravel-encryption
 
 ---
 

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt\Tests\Feature;
+namespace SecureCrypto\Encryption\Tests\Feature;
 
 use Orchestra\Testbench\TestCase;
 use Illuminate\Support\Facades\Route;
-use Sanjeev\ResponseCrypt\ResponseCryptServiceProvider;
-use Sanjeev\ResponseCrypt\Facades\ResponseCrypt;
+use SecureCrypto\Encryption\ResponseCryptServiceProvider;
+use SecureCrypto\Encryption\Facades\ResponseCrypt;
 
 class DecryptApiRequestTest extends TestCase
 {
@@ -18,11 +18,11 @@ class DecryptApiRequestTest extends TestCase
 
     protected function getEnvironmentSetUp($app): void
     {
-        $app['config']->set('crypt.enabled', true);
-        $app['config']->set('crypt.driver', 'hex');
-        $app['config']->set('crypt.key', base64_encode(random_bytes(32)));
-        $app['config']->set('crypt.iv', base64_encode(random_bytes(16)));
-        $app['config']->set('crypt.decrypt_request', true);
+        $app['config']->set('secure-crypto.enabled', true);
+        $app['config']->set('secure-crypto.driver', 'hex');
+        $app['config']->set('secure-crypto.key', base64_encode(random_bytes(32)));
+        $app['config']->set('secure-crypto.iv', base64_encode(random_bytes(16)));
+        $app['config']->set('secure-crypto.decrypt_request', true);
         $app['config']->set('app.key', 'base64:' . base64_encode('test-key-32-characters-long!!'));
     }
 
@@ -57,7 +57,7 @@ class DecryptApiRequestTest extends TestCase
 
     public function test_skips_decryption_when_disabled(): void
     {
-        config(['crypt.enabled' => false]);
+        config(['secure-crypto.enabled' => false]);
 
         Route::middleware(['request.decrypt'])->post('/api/data', function () {
             return response()->json(['received' => request()->all()]);
@@ -86,7 +86,13 @@ class DecryptApiRequestTest extends TestCase
 
         $response->assertStatus(200);
         $data = $response->json();
-        $this->assertArrayHasKey('data', $data);
-        $this->assertArrayHasKey('encrypted', $data);
+        
+        // In minimal mode, response is encrypted string
+        $this->assertIsString($data);
+        
+        // Decrypt and verify
+        $decrypted = ResponseCrypt::decrypt($data);
+        $this->assertArrayHasKey('message', $decrypted);
+        $this->assertEquals('Success', $decrypted['message']);
     }
 }

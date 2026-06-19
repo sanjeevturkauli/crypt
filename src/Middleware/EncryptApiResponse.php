@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt\Middleware;
+namespace SecureCrypto\Encryption\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Sanjeev\ResponseCrypt\Facades\ResponseCrypt;
+use SecureCrypto\Encryption\Facades\ResponseCrypt;
 
 class EncryptApiResponse
 {
@@ -25,7 +25,7 @@ class EncryptApiResponse
             return $response;
         }
 
-        if (!config('crypt.encrypt_response', true)) {
+        if (!config('secure-crypto.encrypt_response', true)) {
             return $response;
         }
 
@@ -58,7 +58,7 @@ class EncryptApiResponse
             return false;
         }
 
-        if (!config('crypt.encrypt_web_response', false)) {
+        if (!config('secure-crypto.encrypt_web_response', false)) {
             if (!$request->expectsJson() && !$request->is('api/*')) {
                 return false;
             }
@@ -88,7 +88,7 @@ class EncryptApiResponse
         if (str_contains($acceptHeader, 'application/json') && 
             !str_contains($acceptHeader, 'encrypted')) {
             // If config allows plain responses via Accept header
-            if (config('crypt.allow_plain_via_accept', false)) {
+            if (config('secure-crypto.allow_plain_via_accept', false)) {
                 return true;
             }
         }
@@ -107,7 +107,7 @@ class EncryptApiResponse
             return $response;
         }
 
-        $excludedKeys = config('crypt.excluded_keys', []);
+        $excludedKeys = config('secure-crypto.excluded_keys', []);
         $dataToEncrypt = [];
         $unencryptedData = [];
 
@@ -128,23 +128,42 @@ class EncryptApiResponse
             $unencryptedData
         );
 
+        // For minimal mode (string response), wrap in data key for JSON compatibility
+        if (is_string($finalResponse)) {
+            return response()->json($finalResponse, $response->status(), $response->headers->all())
+                ->setEncodingOptions(JSON_UNESCAPED_SLASHES);
+        }
+
         return response()->json($finalResponse, $response->status(), $response->headers->all());
     }
 
     /**
      * Build custom response structure based on config.
      */
-    protected function buildCustomResponse(string $payload, array $meta, array $unencryptedData): array
+    protected function buildCustomResponse(string $payload, array $meta, array $unencryptedData): mixed
     {
-        $structure = config('crypt.response_structure');
+        $mode = config('secure-crypto.response_mode', 'minimal');
 
-        // If no custom structure, use default
-        if (empty($structure)) {
+        // Minimal mode - return only encrypted string
+        if ($mode === 'minimal') {
+            return $payload;
+        }
+
+        // Wrapped mode - standard response with metadata
+        if ($mode === 'wrapped') {
             return array_merge($unencryptedData, [
+                'success' => true,
+                'data' => $payload,
                 'encrypted' => true,
-                'payload' => $payload,
                 'meta' => $meta,
             ]);
+        }
+
+        // Custom mode - use template from config
+        $structure = config('secure-crypto.response_structure');
+
+        if (empty($structure)) {
+            return $payload; // Fallback to minimal
         }
 
         // Replace placeholders with actual values

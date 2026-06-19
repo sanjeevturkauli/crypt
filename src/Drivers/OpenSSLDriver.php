@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt\Drivers;
+namespace SecureCrypto\Encryption\Drivers;
 
 class OpenSSLDriver extends BaseEncryptionDriver
 {

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt\Middleware;
+namespace SecureCrypto\Encryption\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Sanjeev\ResponseCrypt\Facades\ResponseCrypt;
-use Sanjeev\ResponseCrypt\Exceptions\DecryptionFailedException;
+use SecureCrypto\Encryption\Facades\ResponseCrypt;
+use SecureCrypto\Encryption\Exceptions\DecryptionFailedException;
 
 class DecryptApiRequest
 {
@@ -21,7 +21,7 @@ class DecryptApiRequest
             return $next($request);
         }
 
-        if (!config('response-crypt.decrypt_request', true)) {
+        if (!config('secure-crypto.decrypt_request', true)) {
             return $next($request);
         }
 
@@ -34,7 +34,7 @@ class DecryptApiRequest
         }
 
         try {
-            $payloadKey = config('response-crypt.request_payload_key', 'payload');
+            $payloadKey = config('secure-crypto.request_payload_key', 'payload');
 
             if ($request->has($payloadKey)) {
                 $decryptedData = ResponseCrypt::decryptArray($request->all());
@@ -43,7 +43,7 @@ class DecryptApiRequest
             }
         } catch (DecryptionFailedException $e) {
             return response()->json(
-                config('response-crypt.error_response', [
+                config('secure-crypto.error_response', [
                     'status' => false,
                     'message' => 'Invalid encrypted payload.',
                     'error' => 'DECRYPTION_FAILED',
@@ -68,7 +68,7 @@ class DecryptApiRequest
             return false;
         }
 
-        if ($request->hasFile(config('response-crypt.request_payload_key', 'payload'))) {
+        if ($request->hasFile(config('secure-crypto.request_payload_key', 'payload'))) {
             return false;
         }
 

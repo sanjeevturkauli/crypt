@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Sanjeev\ResponseCrypt\Facades\ResponseCrypt;
+use SecureCrypto\Encryption\Facades\ResponseCrypt;
 
 if (!function_exists('encrypt_data')) {
     /**

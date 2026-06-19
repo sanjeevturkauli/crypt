@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sanjeev\ResponseCrypt\Console\Commands;
+namespace SecureCrypto\Encryption\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -68,12 +68,12 @@ class GenerateEncryptionKeys extends Command
         }
 
         $this->components->twoColumnDetail(
-            '<fg=green>RESPONSE_CRYPT_KEY</>',
+            '<fg=green>CRYPT_KEY</>',
             $this->truncateKey($key)
         );
 
         $this->components->twoColumnDetail(
-            '<fg=green>RESPONSE_CRYPT_IV</>',
+            '<fg=green>CRYPT_IV</>',
             $this->truncateKey($iv)
         );
     }
@@ -92,8 +92,8 @@ class GenerateEncryptionKeys extends Command
         $envContent = File::get($envPath);
 
         // Check if keys already exist
-        $hasKey = $this->hasEnvironmentKey($envContent, 'RESPONSE_CRYPT_KEY');
-        $hasIV = $this->hasEnvironmentKey($envContent, 'RESPONSE_CRYPT_IV');
+        $hasKey = $this->hasEnvironmentKey($envContent, 'CRYPT_KEY');
+        $hasIV = $this->hasEnvironmentKey($envContent, 'CRYPT_IV');
 
         if ($hasKey || $hasIV) {
             if (!$this->confirm('Keys already exist. Do you want to overwrite them?', false)) {
@@ -104,25 +104,25 @@ class GenerateEncryptionKeys extends Command
             // Replace existing keys
             if ($hasKey) {
                 $envContent = preg_replace(
-                    '/^RESPONSE_CRYPT_KEY=.*$/m',
-                    'RESPONSE_CRYPT_KEY="' . $key . '"',
+                    '/^CRYPT_KEY=.*$/m',
+                    'CRYPT_KEY="' . $key . '"',
                     $envContent
                 );
             }
 
             if ($hasIV) {
                 $envContent = preg_replace(
-                    '/^RESPONSE_CRYPT_IV=.*$/m',
-                    'RESPONSE_CRYPT_IV="' . $iv . '"',
+                    '/^CRYPT_IV=.*$/m',
+                    'CRYPT_IV="' . $iv . '"',
                     $envContent
                 );
             }
         } else {
             // Append new keys
             $envContent = rtrim($envContent);
-            $envContent .= "\n\n# Response Crypt Package - Encryption Keys\n";
-            $envContent .= 'RESPONSE_CRYPT_KEY="' . $key . '"' . PHP_EOL;
-            $envContent .= 'RESPONSE_CRYPT_IV="' . $iv . '"' . PHP_EOL;
+            $envContent .= "\n\n# Encryption Keys\n";
+            $envContent .= 'CRYPT_KEY="' . $key . '"' . PHP_EOL;
+            $envContent .= 'CRYPT_IV="' . $iv . '"' . PHP_EOL;
         }
 
         File::put($envPath, $envContent);
