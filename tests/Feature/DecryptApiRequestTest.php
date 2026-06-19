@@ -18,9 +18,11 @@ class DecryptApiRequestTest extends TestCase
 
     protected function getEnvironmentSetUp($app): void
     {
-        $app['config']->set('response-crypt.enabled', true);
-        $app['config']->set('response-crypt.driver', 'laravel');
-        $app['config']->set('response-crypt.decrypt_request', true);
+        $app['config']->set('crypt.enabled', true);
+        $app['config']->set('crypt.driver', 'hex');
+        $app['config']->set('crypt.key', base64_encode(random_bytes(32)));
+        $app['config']->set('crypt.iv', base64_encode(random_bytes(16)));
+        $app['config']->set('crypt.decrypt_request', true);
         $app['config']->set('app.key', 'base64:' . base64_encode('test-key-32-characters-long!!'));
     }
 
@@ -55,7 +57,7 @@ class DecryptApiRequestTest extends TestCase
 
     public function test_skips_decryption_when_disabled(): void
     {
-        config(['response-crypt.enabled' => false]);
+        config(['crypt.enabled' => false]);
 
         Route::middleware(['request.decrypt'])->post('/api/data', function () {
             return response()->json(['received' => request()->all()]);

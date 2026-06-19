@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Sanjeev\ResponseCrypt\Tests\Unit;
 
 use Orchestra\Testbench\TestCase;
-use Sanjeev\ResponseCrypt\Services\ResponseCryptService;
+use Sanjeev\ResponseCrypt\Services\EncryptionService;
 use Sanjeev\ResponseCrypt\Exceptions\EncryptionFailedException;
 use Sanjeev\ResponseCrypt\Exceptions\DecryptionFailedException;
 use Illuminate\Http\Request;
 
 class ResponseCryptServiceTest extends TestCase
 {
-    protected ResponseCryptService $service;
+    protected EncryptionService $service;
 
     protected function setUp(): void
     {
@@ -20,8 +20,9 @@ class ResponseCryptServiceTest extends TestCase
 
         $config = [
             'enabled' => true,
-            'driver' => 'laravel',
-            'key' => 'base64:' . base64_encode('test-key-32-characters-long!!'),
+            'driver' => 'hex',
+            'key' => base64_encode(random_bytes(32)),
+            'iv' => base64_encode(random_bytes(16)),
             'encrypt_response' => true,
             'decrypt_request' => true,
             'response_wrapper_key' => 'payload',
@@ -35,7 +36,7 @@ class ResponseCryptServiceTest extends TestCase
             'log_enabled' => false,
         ];
 
-        $this->service = new ResponseCryptService($config);
+        $this->service = new EncryptionService($config);
     }
 
     public function test_can_encrypt_string(): void

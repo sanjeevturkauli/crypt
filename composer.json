@@ -1,6 +1,5 @@
 {
     "name": "sanjeev-dev/crypt",
-    "version": "1.1.0",
     "description": "Professional Laravel package for API encryption with Strategy Pattern, SOLID principles, and modern PHP 8.2+ features",
     "type": "library",
     "license": "MIT",
@@ -61,7 +60,7 @@
             }
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "scripts": {
         "test": "vendor/bin/phpunit"
