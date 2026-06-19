@@ -31,7 +31,7 @@ composer require securecrypto/laravel-encryption
 
 **Step 2: Publish Config**
 ```bash
-php artisan vendor:publish --tag=crypt-config
+php artisan vendor:publish --tag=secure-crypto-config
 ```
 
 **Step 3: Use in Routes**
@@ -101,7 +101,7 @@ composer require securecrypto/laravel-encryption
 ### Step 2: Publish Configuration
 
 ```bash
-php artisan vendor:publish --tag=crypt-config
+php artisan vendor:publish --tag=secure-crypto-config
 ```
 
 This creates `config/crypt.php` in your application.

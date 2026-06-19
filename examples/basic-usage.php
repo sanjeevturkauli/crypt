@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Basic Usage Examples for Response Crypt Package
+ * Basic Usage Examples for SecureCrypto Package
  */
 
 use Illuminate\Support\Facades\Route;
-use Sanjeev\ResponseCrypt\Facades\ResponseCrypt;
+use SecureCrypto\Encryption\Facades\ResponseCrypt;
 
 // ============================================
 // Example 1: Encrypt Response Only
@@ -15,8 +15,8 @@ Route::middleware(['response.encrypt'])->get('/api/users', function () {
         'status' => true,
         'data' => [
             'id' => 1,
-            'name' => 'Sanjeev Kumar',
-            'email' => 'sanjeev@example.com',
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
             'role' => 'Developer',
         ],
     ]);

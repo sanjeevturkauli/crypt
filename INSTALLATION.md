@@ -74,7 +74,7 @@ You should see package details including version, description, and dependencies.
 Publish the configuration file to customize package settings:
 
 ```bash
-php artisan vendor:publish --tag=crypt-config
+php artisan vendor:publish --tag=secure-crypto-config
 ```
 
 This creates `config/crypt.php` in your Laravel application.
@@ -381,7 +381,7 @@ php artisan --version
 php artisan optimize:clear
 
 # Re-publish config
-php artisan vendor:publish --tag=crypt-config --force
+php artisan vendor:publish --tag=secure-crypto-config --force
 
 # Restart server
 php artisan serve
@@ -468,7 +468,7 @@ git commit -m "Before installing response-crypt"
 composer require securecrypto/laravel-encryption
 
 # 3. Publish config
-php artisan vendor:publish --tag=crypt-config
+php artisan vendor:publish --tag=secure-crypto-config
 
 # 4. Test in development first
 RESPONSE_CRYPT_ENABLED=true
