@@ -39,10 +39,6 @@ class ResponseCryptServiceProvider extends ServiceProvider
                 __DIR__ . '/../config/crypt.php' => config_path('crypt.php'),
             ], 'crypt-config');
 
-            $this->commands([
-                Console\Commands\GenerateEncryptionKeys::class,
-            ]);
-
             $this->autoGenerateKeysOnInstall();
         }
 
