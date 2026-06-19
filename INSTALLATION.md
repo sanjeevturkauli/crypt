@@ -74,14 +74,14 @@ You should see package details including version, description, and dependencies.
 Publish the configuration file to customize package settings:
 
 ```bash
-php artisan vendor:publish --tag=response-crypt-config
+php artisan vendor:publish --tag=crypt-config
 ```
 
-This creates `config/response-crypt.php` in your Laravel application.
+This creates `config/crypt.php` in your Laravel application.
 
 **Expected Output:**
 ```
-Copied File [/vendor/sanjeev-dev/crypt/config/response-crypt.php] To [/config/response-crypt.php]
+Copied File [/vendor/sanjeev-dev/crypt/config/crypt.php] To [/config/crypt.php]
 Publishing complete.
 ```
 
@@ -117,7 +117,7 @@ RESPONSE_CRYPT_LOG_ENABLED=false
 
 ### Config File Settings
 
-Edit `config/response-crypt.php` if published:
+Edit `config/crypt.php` if published:
 
 ```php
 return [
@@ -341,7 +341,7 @@ php artisan --version
 php artisan optimize:clear
 
 # Re-publish config
-php artisan vendor:publish --tag=response-crypt-config --force
+php artisan vendor:publish --tag=crypt-config --force
 
 # Restart server
 php artisan serve
@@ -361,7 +361,7 @@ php artisan serve
 php artisan key:generate
 
 # Check config
-php artisan config:show response-crypt
+php artisan config:show crypt
 
 # Verify driver setting
 # In .env: RESPONSE_CRYPT_DRIVER=laravel
@@ -428,7 +428,7 @@ git commit -m "Before installing response-crypt"
 composer require sanjeev-dev/crypt
 
 # 3. Publish config
-php artisan vendor:publish --tag=response-crypt-config
+php artisan vendor:publish --tag=crypt-config
 
 # 4. Test in development first
 RESPONSE_CRYPT_ENABLED=true
@@ -447,7 +447,7 @@ If you need to remove the package:
 # 1. Remove middleware from routes
 
 # 2. Remove config file
-rm config/response-crypt.php
+rm config/crypt.php
 
 # 3. Remove from composer
 composer remove sanjeev-dev/crypt
@@ -462,7 +462,7 @@ After successful installation:
 
 1. **Read the README**: [README.md](README.md)
 2. **Check Examples**: [examples/basic-usage.php](examples/basic-usage.php)
-3. **Review Configuration**: `config/response-crypt.php`
+3. **Review Configuration**: `config/crypt.php`
 4. **Test Your Implementation**: Create test routes
 5. **Integrate with Frontend**: [examples/javascript-client.js](examples/javascript-client.js)
 

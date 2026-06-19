@@ -22,7 +22,7 @@ A **professional-grade** Laravel package for automatic API request/response encr
 
 **Step 1: Install**
 ```bash
-composer require sanjeev/response-crypt
+composer require sanjeev-dev/crypt
 ```
 ✅ Keys auto-generated in `.env`!
 
@@ -90,7 +90,7 @@ RESPONSE_CRYPT_ENABLED=true
 ### Step 1: Install via Composer
 
 ```bash
-composer require sanjeev/response-crypt
+composer require sanjeev-dev/crypt
 ```
 
 ✅ **Keys are automatically generated** and added to your `.env` file!
@@ -699,9 +699,9 @@ This package is open-source software licensed under the [MIT License](LICENSE).
 
 ## 📞 Support
 
-- **GitHub Repository:** https://github.com/sanjeev/response-crypt
-- **Issues:** https://github.com/sanjeev/response-crypt/issues
-- **Packagist:** https://packagist.org/packages/sanjeev/response-crypt
+- **GitHub Repository:** https://github.com/sanjeevturkauli/crypt
+- **Issues:** https://github.com/sanjeevturkauli/crypt/issues
+- **Packagist:** https://packagist.org/packages/sanjeev-dev/crypt
 
 ---
 
@@ -827,7 +827,7 @@ $decrypted = decrypt_data($encrypted);
 
 ### Exclude Specific Response Keys
 
-Some keys like `token_type` or `expires_in` can remain unencrypted. Configure this in `config/response-crypt.php`:
+Some keys like `token_type` or `expires_in` can remain unencrypted. Configure this in `config/crypt.php`:
 
 ```php
 'excluded_keys' => [
