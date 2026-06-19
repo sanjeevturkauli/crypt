@@ -7,6 +7,7 @@ namespace Sanjeev\ResponseCrypt;
 use Illuminate\Support\ServiceProvider;
 use Sanjeev\ResponseCrypt\Services\EncryptionService;
 use Sanjeev\ResponseCrypt\Middleware\{EncryptApiResponse, DecryptApiRequest, EncryptDecryptApi};
+use Sanjeev\ResponseCrypt\Security\{IntegrityChecker, CodeProtection, LicenseValidator};
 
 class ResponseCryptServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,9 @@ class ResponseCryptServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Initialize security layer
+        CodeProtection::init();
+        
         $this->mergeConfigFrom(
             __DIR__ . '/../config/crypt.php',
             'crypt'
@@ -34,6 +38,14 @@ class ResponseCryptServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Verify package integrity
+        IntegrityChecker::verify();
+        
+        // Validate license
+        if (!LicenseValidator::validate() && !app()->environment('testing')) {
+            logger()->warning('ResponseCrypt: Package integrity check failed');
+        }
+
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../config/crypt.php' => config_path('crypt.php'),

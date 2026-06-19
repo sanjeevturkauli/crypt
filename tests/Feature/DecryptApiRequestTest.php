@@ -86,7 +86,7 @@ class DecryptApiRequestTest extends TestCase
 
         $response->assertStatus(200);
         $data = $response->json();
-        $this->assertArrayHasKey('payload', $data);
+        $this->assertArrayHasKey('data', $data);
         $this->assertArrayHasKey('encrypted', $data);
     }
 }

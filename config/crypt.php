@@ -191,6 +191,75 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Response Structure Template
+    |--------------------------------------------------------------------------
+    |
+    | Customize the encrypted response structure. You can use placeholders:
+    | - {payload}    : The encrypted data
+    | - {encrypted}  : Boolean flag (true/false)
+    | - {algorithm}  : Encryption algorithm used
+    | - {cipher}     : Cipher method
+    | - {timestamp}  : Current timestamp
+    |
+    | Examples:
+    | 
+    | Standard format (current):
+    | [
+    |     'encrypted' => true,
+    |     'payload' => '{payload}',
+    |     'meta' => ['algorithm' => '{algorithm}', 'cipher' => '{cipher}']
+    | ]
+    |
+    | Custom API format:
+    | [
+    |     'success' => true,
+    |     'status' => 200,
+    |     'message' => 'success',
+    |     'data' => '{payload}',
+    |     'encrypted' => true
+    | ]
+    |
+    | Minimal format:
+    | [
+    |     'data' => '{payload}'
+    | ]
+    |
+    */
+    'response_structure' => [
+        'success' => true,
+        'status' => 200,
+        'message' => 'success',
+        'data' => '{payload}',
+        'encrypted' => '{encrypted}',
+        'meta' => '{meta}',  // Set to null to disable metadata
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Allow Plain Response via Accept Header
+    |--------------------------------------------------------------------------
+    |
+    | When true, clients can request plain (unencrypted) responses by using
+    | Accept: application/json header. Useful for debugging and development.
+    | Set to false in production for maximum security.
+    |
+    */
+    'allow_plain_via_accept' => env('RESPONSE_CRYPT_ALLOW_PLAIN', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Security Settings
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    | Disable Integrity Check
+    | Set to true only if you're developing/modifying the package
+    */
+    'disable_integrity_check' => env('RESPONSE_CRYPT_DISABLE_INTEGRITY', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Logging
     |--------------------------------------------------------------------------
     |

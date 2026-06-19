@@ -35,9 +35,10 @@ class EncryptApiResponseTest extends TestCase
         $response = $this->getJson('/test');
 
         $response->assertStatus(200);
-        $response->assertJsonStructure(['payload', 'encrypted', 'meta']);
+        $response->assertJsonStructure(['success', 'status', 'message', 'data', 'encrypted']);
         $data = $response->json();
         $this->assertTrue($data['encrypted']);
+        $this->assertArrayHasKey('data', $data);
     }
 
     public function test_does_not_encrypt_when_disabled(): void
@@ -92,7 +93,7 @@ class EncryptApiResponseTest extends TestCase
         $data = $response->json();
 
         // Check if response has encrypted structure
-        $this->assertArrayHasKey('payload', $data);
+        $this->assertArrayHasKey('data', $data);
         
         // Excluded keys should be preserved if middleware supports it
         // If not implemented yet, this test shows expected behavior
