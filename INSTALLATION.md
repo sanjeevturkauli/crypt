@@ -269,6 +269,46 @@ class SecureController extends Controller
 }
 ```
 
+### 🆕 Control Encryption via Request (v1.4.0+)
+
+Users can disable encryption per request:
+
+```php
+// In your API client or Postman
+// Add header: X-Disable-Encryption: true
+
+// Or use query parameter
+GET /api/users?encrypted=false
+```
+
+This is useful for debugging or when encryption is not needed.
+
+### 🆕 Customize Response Structure (v1.4.0+)
+
+Edit `config/crypt.php`:
+
+```php
+'response_structure' => [
+    'success' => true,
+    'status' => 200,
+    'message' => 'success',
+    'data' => '{payload}',     // Your encrypted data
+    'encrypted' => '{encrypted}',
+    'meta' => null,            // Set to null to hide metadata
+],
+```
+
+Now your API returns:
+```json
+{
+  "success": true,
+  "status": 200,
+  "message": "success",
+  "data": "encrypted_payload_here",
+  "encrypted": true
+}
+```
+
 ### Using Facade
 ```php
 use Sanjeev\ResponseCrypt\Facades\ResponseCrypt;
@@ -315,7 +355,7 @@ composer clear-cache
 composer require sanjeev-dev/crypt
 
 # Or specify version
-composer require sanjeev-dev/crypt:^1.0
+composer require sanjeev-dev/crypt:^1.4
 ```
 
 ### Issue 3: "Your requirements could not be resolved"

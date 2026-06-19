@@ -13,6 +13,9 @@ A **professional-grade** Laravel package for automatic API request/response encr
 - ✅ **SOLID Principles** - Clean, maintainable code
 - ✅ **Auto-Generated Keys** - Zero configuration
 - ✅ **Mobile Compatible** - Hex encoding support
+- ✅ **Customizable Response** - Configure your own response structure
+- ✅ **Request Control** - Disable encryption via headers/params
+- ✅ **Security Hardened** - Code integrity verification
 - ✅ **Type-Safe** - Full PHP 8.2+ type hints
 - ✅ **Well-Tested** - Comprehensive test coverage
 
@@ -824,6 +827,66 @@ $decrypted = decrypt_data($encrypted);
 ```
 
 ## Advanced Usage
+
+### 🎨 Customize Response Structure (v1.4.0+)
+
+**NEW!** Configure your own response format in `config/crypt.php`:
+
+```php
+'response_structure' => [
+    'success' => true,
+    'status' => 200,
+    'message' => 'success',
+    'data' => '{payload}',      // Encrypted data goes here
+    'encrypted' => '{encrypted}', // Boolean flag
+    'meta' => '{meta}',          // Encryption metadata (or null to disable)
+],
+```
+
+**Before (default):**
+```json
+{
+  "encrypted": true,
+  "payload": "a2e19e18e6f504111...",
+  "meta": {"algorithm": "hex", "cipher": "AES-256-CBC"}
+}
+```
+
+**After (customized):**
+```json
+{
+  "success": true,
+  "status": 200,
+  "message": "success",
+  "data": "a2e19e18e6f504111...",
+  "encrypted": true,
+  "meta": {"algorithm": "hex"}
+}
+```
+
+### 🎛️ Control Encryption via Request Headers (v1.4.0+)
+
+**NEW!** Users can disable encryption dynamically:
+
+**Option 1: Using Header**
+```bash
+curl -H "X-Disable-Encryption: true" http://api.example.com/users
+```
+
+**Option 2: Using Query Parameter**
+```bash
+curl http://api.example.com/users?encrypted=false
+```
+
+**Option 3: Using Accept Header** (when enabled in config)
+```bash
+curl -H "Accept: application/json" http://api.example.com/users
+```
+
+Enable in config:
+```php
+'allow_plain_via_accept' => true,
+```
 
 ### Exclude Specific Response Keys
 

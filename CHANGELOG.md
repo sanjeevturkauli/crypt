@@ -7,6 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.4.0] - 2026-06-19
+
+### 🎨 Customizable Response Structure
+
+#### Added
+- **Custom Response Format** - Configure your own API response structure
+- Response template with placeholders: `{payload}`, `{encrypted}`, `{meta}`
+- Standard API format support: `success`, `status`, `message`, `data`
+- Ability to disable metadata
+
+### 🎛️ Request-Based Encryption Control
+
+#### Added
+- **Header Control** - `X-Disable-Encryption: true`
+- **Query Parameter** - `?encrypted=false`
+- **Accept Header** - `Accept: application/json` (configurable)
+
+### 🔒 Security Hardening
+
+#### Added
+- `IntegrityChecker` - File tampering detection
+- `LicenseValidator` - Attribution verification
+- `CodeProtection` - Prevents cloning/serialization
+- Production-only security checks
+
+### 📝 Documentation
+- Updated README with v1.4.0 features
+- Updated INSTALLATION guide
+- Added security configuration examples
+
+---
+
+## [1.3.0] - 2026-06-19
+
+### Added
+- `crypt:keys` command with `--show` and `--force` options
+
+---
+
 ## [1.1.0] - 2026-06-18
 
 ### 🎯 Major Refactoring - Professional Architecture
